@@ -1,4 +1,4 @@
-import { Product, products } from "./data";
+import { Product, products } from "./data.ts";
 
 function generateProductHTML(product: Product): string {
     return `<div class="store-item">
@@ -10,15 +10,28 @@ function generateProductHTML(product: Product): string {
 }
 
 function renderProducts(prods: Product[]): void {
-    // your code
+    const mainDiv = document.getElementById("main-container");
+    if (!mainDiv) {
+        console.error("Main container not found");
+        return;
+    }
+
+    mainDiv.innerHTML = ""; // Clear existing content
+
+    prods.forEach(product => {
+        const storeItemHTML = generateProductHTML(product);
+        mainDiv.innerHTML += storeItemHTML;
+    });
 }
 
 function getByCategory(category: string): void {
-    // your code
+    const filteredProducts = products.filter(product => product.category === category);
+    renderProducts(filteredProducts);
 }
 
 function getByRating(minRating: number): void {
-    // your code
+    const filteredProducts = products.filter(product => product.rating > minRating);
+    renderProducts(filteredProducts);
 }
 
 export { renderProducts, getByCategory, getByRating };
